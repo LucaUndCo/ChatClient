@@ -1,6 +1,7 @@
 #ifndef WIDGET_H
 #define WIDGET_H
 
+#include "client.h"
 #include <QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -14,8 +15,11 @@ class Widget : public QWidget
 public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
+signals:
 
 private:
+    Client client;
     Ui::Widget *ui;
+
 };
 #endif // WIDGET_H
