@@ -3,12 +3,24 @@
 Client::Client(QObject *parent)
     : QObject{parent}
 {
-
+    socket = new QTcpSocket(this);
+    qDebug() << socket;
+    connect(socket, SIGNAL(readyRead()), this, SLOT(readData()));
 }
 
 void Client::connectToServer(QString adress, int port)
 {
-    socket->connectToHost(adress,port);
+    qDebug() << "trying to connect" << port;
+    if (socket) {
+        socket->connectToHost(adress, port);
+        if (socket->waitForConnected()) {
+            qDebug() << "Connected to server";
+        } else {
+            qDebug() << "Connection failed: " << socket->errorString();
+        }
+    } else {
+        qDebug() << "Socket not initialized.";
+    }
 }
 
 void Client::disconnectFromServer()
@@ -18,10 +30,11 @@ void Client::disconnectFromServer()
 
 void Client::readData()
 {
-    QByteArray data;
     while (socket->canReadLine()) {
-        data = socket->readLine();
+        QByteArray data = socket->readLine();
+        qDebug() << data;
         emit chatChanged(data);
+        qDebug() << "signal emited";
         data.clear();
     }
 }

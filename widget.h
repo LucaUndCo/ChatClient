@@ -16,10 +16,19 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 signals:
+    void connectpressed(QString ip, int port);
+private slots:
+    void on_PB_Connect_clicked();
+
+    void on_PB_DisConnect_clicked();
+
+    void on_PB_Exit_clicked();
 
 private:
-    Client client;
+    Client *client;
     Ui::Widget *ui;
+    void updateChatBox(QString message);
+
 
 };
 #endif // WIDGET_H
