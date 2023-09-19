@@ -41,6 +41,8 @@ void Client::readData()
 
 void Client::sendData(QByteArray text)
 {
+    if(text == nullptr || text == "")
+        return;
     qDebug() << text;
     text.append("\r\n");
     socket->write(text);

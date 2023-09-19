@@ -8,6 +8,7 @@ Widget::Widget(QWidget *parent)
     ui->setupUi(this);
     client = new Client(this);
     connect(client, &Client::chatChanged, this, &Widget::updateChatBox);
+    ui->PB_DisConnect->setEnabled(false);
 }
 
 Widget::~Widget()
@@ -23,12 +24,15 @@ void Widget::on_PB_Connect_clicked()
     QString ip = ui->TE_IP->toPlainText();
     qDebug() << port.toInt();
     qDebug() << ip;
-
+    if(port == nullptr || ip == nullptr)
+        return;
     try {
         client->connectToServer(ip, port.toInt());
         qDebug() << "variable called";
         ui->TE_IP->clear();
         ui->TE_Port->clear();
+        ui->PB_Connect->setEnabled(false);
+        ui->PB_DisConnect->setEnabled(true);
     } catch (const std::exception& e) {
         qDebug() << "Error: " << e.what();
         // Hier kannst du weitere Fehlerbehandlung hinzufügen.
@@ -39,6 +43,8 @@ void Widget::on_PB_Connect_clicked()
 void Widget::on_PB_DisConnect_clicked()
 {
     client->disconnectFromServer();
+    ui->PB_DisConnect->setEnabled(false);
+    ui->PB_Connect->setEnabled(true);
 }
 
 void Widget::updateChatBox(QString message)
