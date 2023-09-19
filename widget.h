@@ -24,6 +24,8 @@ private slots:
 
     void on_PB_Exit_clicked();
 
+    void on_PB_Send_clicked();
+
 private:
     Client *client;
     Ui::Widget *ui;

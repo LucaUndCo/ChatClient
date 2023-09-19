@@ -54,3 +54,12 @@ void Widget::on_PB_Exit_clicked()
     QApplication::quit();
 }
 
+
+void Widget::on_PB_Send_clicked()
+{
+    QByteArray message = ui->TE_Send->toPlainText().toUtf8();
+    client->sendData(message);
+    message.clear();
+    ui->TE_Send->clear();
+}
+

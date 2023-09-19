@@ -41,5 +41,7 @@ void Client::readData()
 
 void Client::sendData(QByteArray text)
 {
+    qDebug() << text;
+    text.append("\r\n");
     socket->write(text);
 }
